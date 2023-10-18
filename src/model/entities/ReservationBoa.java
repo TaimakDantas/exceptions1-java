@@ -4,18 +4,26 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class ReservationRuim {
+import model.exceptions.DomainExceptionBoa;
 
+public class ReservationBoa {
 	private Integer roomNumber;
 	private Date checkIn;
 	private Date checkOut;
 	
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	
-	public ReservationRuim() {
+	public ReservationBoa() {
 	}
 
-	public ReservationRuim(Integer roomNumber, Date checkIn, Date checkOut) {
+	public ReservationBoa(Integer roomNumber, Date checkIn, Date checkOut) {
+		
+		if (!checkOut.after(checkIn)) {
+			
+			throw new DomainExceptionBoa("Check-out date must be after Check-in date");
+			
+		}
+		
 		this.roomNumber = roomNumber;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -45,28 +53,24 @@ public class ReservationRuim {
 		
 	}
 	
-	public String updateDates(Date checkIn, Date checkOut) {
+	public void updateDates(Date checkIn, Date checkOut) {
 		
 		Date now = new Date();
-//		Date now = new GregorianCalendar(2018, 6, 6).getTime();
-				
 		
 		if (checkIn.before(now) || checkOut.before(now)) {
 			
-			return "Reservation dates for update must be future";
+			throw new DomainExceptionBoa("Reservation dates for update must be future dates");
 			
 		}
 		if (!checkOut.after(checkIn)) {
 			
-			return "Check-out date must be after Check-in date";
+			throw new DomainExceptionBoa("Check-out date must be after Check-in date");
 			
 		}
 		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		
-		//Apos coloca o if no updateDates
-		return null;
 	}
 
 	@Override
@@ -81,7 +85,5 @@ public class ReservationRuim {
 				+ duration()
 				+ " nights";
 	}
-	
-	
 	
 }
