@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import model.entities.ReservationRuim;
 
-public class Program2ExcecoesPersoRuim2 {
+public class Program2ExcecoesPersoRuim {
 
 	public static void main(String[] args) throws ParseException {
 		
